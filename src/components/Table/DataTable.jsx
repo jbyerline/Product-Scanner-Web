@@ -30,19 +30,44 @@ const columns = [
     {
         name: "brand",
         label: "Brand",
+        options: {
+            customBodyRender: (value) => {
+                return (
+                    <div style={{display:"flex"}}>
+                        <div style={{margin:"auto"}}>
+                            {value}
+                        </div>
+                    </div>
+                )
+            },
+        }
     },
     {
         name: "name",
         label: "Product Name",
+        options: {
+            customBodyRender: (value) => {
+                return (
+                    <div style={{display:"flex"}}>
+                        <div style={{margin:"auto"}}>
+                            {value}
+                        </div>
+                    </div>
+                )
+            },
+        }
     },
     {
         name: "URL",
         label: "URL",
         options: {
-            filter: false,
             customBodyRender: (value) => {
                 return (
-                    <a href={value}>Product Link</a>
+                    <div style={{display:"flex"}}>
+                        <div style={{margin:"auto"}}>
+                            <a href={value}>Product Link</a>
+                        </div>
+                    </div>
                 );
             }
         }
@@ -50,6 +75,18 @@ const columns = [
     {
         name: "regex",
         label: "Regex",
+        options: {
+            display: false,
+            customBodyRender: (value) => {
+                return (
+                    <div style={{display:"flex"}}>
+                        <div style={{margin:"auto"}}>
+                            {value}
+                        </div>
+                    </div>
+                )
+            },
+        }
     },
     {
         name: "isFound",
@@ -178,7 +215,6 @@ export default function DataTable() {
         print: false,
         filter: false,
         download: false,
-        viewColumns: false,
         rowsPerPage: 10
     };
 
