@@ -5,7 +5,9 @@ import CircleX from "../Icons/CircleX";
 import CircleCheck from "../Icons/CircleCheck";
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import {Button, Switch, Typography} from "@mui/material";
+import {Button, Stack, Typography} from "@mui/material";
+import {makeStyles} from "@mui/styles"
+import AntSwitch from "../Switch/AntSwitch";
 
 
 const baseURL = "https://scannerapi.byerline.me";
@@ -25,6 +27,11 @@ const columns = [
                     </div>
                 )
             },
+            customHeadRender: (columnMeta, updateDirection) => (
+                <th key={0} onClick={() => updateDirection(0)} style={{cursor: 'pointer'}}>
+                    {columnMeta.label}
+                </th>
+            )
         }
     },
     {
@@ -40,6 +47,11 @@ const columns = [
                     </div>
                 )
             },
+            customHeadRender: (columnMeta, updateDirection) => (
+                <th key={1} onClick={() => updateDirection(1)} style={{cursor: 'pointer'}}>
+                    {columnMeta.label}
+                </th>
+            )
         }
     },
     {
@@ -55,12 +67,18 @@ const columns = [
                     </div>
                 )
             },
+            customHeadRender: (columnMeta, updateDirection) => (
+                <th key={2} onClick={() => updateDirection(2)} style={{cursor: 'pointer'}}>
+                    {columnMeta.label}
+                </th>
+            )
         }
     },
     {
         name: "URL",
         label: "URL",
         options: {
+            sort: false,
             customBodyRender: (value) => {
                 return (
                     <div style={{display:"flex"}}>
@@ -69,7 +87,12 @@ const columns = [
                         </div>
                     </div>
                 );
-            }
+            },
+            customHeadRender: (columnMeta) => (
+                <th key={3} >
+                    {columnMeta.label}
+                </th>
+            )
         }
     },
     {
@@ -86,6 +109,11 @@ const columns = [
                     </div>
                 )
             },
+            customHeadRender: (columnMeta, updateDirection) => (
+                <th key={4} onClick={() => updateDirection(4)} style={{cursor: 'pointer'}}>
+                    {columnMeta.label}
+                </th>
+            )
         }
     },
     {
@@ -120,6 +148,11 @@ const columns = [
                     )
                 }
             },
+            customHeadRender: (columnMeta, updateDirection) => (
+                <th key={5} onClick={() => updateDirection(5)} style={{cursor: 'pointer'}}>
+                    {columnMeta.label}
+                </th>
+            )
         }
     },
     {
@@ -136,6 +169,11 @@ const columns = [
                     </div>
                 )
             },
+            customHeadRender: (columnMeta, updateDirection) => (
+                <th key={6} onClick={() => updateDirection(6)} style={{cursor: 'pointer'}}>
+                    {columnMeta.label}
+                </th>
+            )
         }
     },
     {
@@ -152,6 +190,11 @@ const columns = [
                     </div>
                 )
             },
+            customHeadRender: (columnMeta, updateDirection) => (
+                <th key={7} onClick={() => updateDirection(7)} style={{cursor: 'pointer'}}>
+                    {columnMeta.label}
+                </th>
+            )
         }
     },
     {
@@ -165,11 +208,13 @@ const columns = [
                     return (
                         <div style={{display:"flex"}}>
                             <div style={{margin:"auto"}}>
-                                <Tooltip title={"Turn Off to Disable Searching"}>
-                                    <Switch defaultChecked onChange={()=> {
-                                        handleDisableSearch(tableMeta.rowData[0])
-                                    }}/>
-                                </Tooltip>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <Typography>Off</Typography>
+                                        <AntSwitch defaultChecked onChange={(e)=> {
+                                            handleUpdateSearch(e, tableMeta)
+                                        }}/>
+                                    <Typography>On</Typography>
+                                </Stack>
                             </div>
                         </div>
                     )
@@ -177,29 +222,44 @@ const columns = [
                     return (
                         <div style={{display:"flex"}}>
                             <div style={{margin:"auto"}}>
-                                <Tooltip title={"Turn On to Enable Searching"}>
-                                    <Switch onChange={()=> {
-                                        handleEnableSearch(tableMeta.rowData[0])
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                <Typography>Off</Typography>
+                                    <AntSwitch onChange={(e)=> {
+                                        handleUpdateSearch(e, tableMeta)
                                     }}/>
-                                </Tooltip>
+                                <Typography>On</Typography>
+                                </Stack>
                             </div>
                         </div>
                     )
                 }
             },
+            customHeadRender: (columnMeta) => (
+                <th key={8} style={{borderBottom: "1px"}}>
+                    {columnMeta.label}
+                </th>
+            )
         }
     },
 ];
 
-const handleDisableSearch = (productID) => {
-    axios.get(baseURL + "/update/" + productID.toString() + "/false").then(() => {});
+const handleUpdateSearch = (e, tableMeta) => {
+    const productID = tableMeta.rowData[0];
+    axios.get(baseURL + "/update/" + productID.toString() + "/" + e.target.checked.toString()).then(() => {});
 };
 
-const handleEnableSearch = (productID) => {
-    axios.get(baseURL + "/update/" + productID.toString() + "/true").then(() => {});
-};
+const useStyles = makeStyles({
+    table: {
+        minWidth: 650,
+        "& .MuiTableHead-root": {
+            border: "1px solid rgba(224, 224, 224, 1)",
+            height: "75px"
+        },
+    }
+});
 
 export default function DataTable() {
+    const classes = useStyles();
     const [data, setData] = React.useState(null);
 
     React.useEffect(() => {
@@ -215,7 +275,7 @@ export default function DataTable() {
         print: false,
         filter: false,
         download: false,
-        rowsPerPage: 10
+        pagination: false,
     };
 
     const handleScan = () => {
@@ -232,6 +292,7 @@ export default function DataTable() {
             </div>
             <div style={{padding:"15px"}}>
                 <MUIDataTable
+                    className={classes.table}
                     title={"Product Scanner List"}
                     data={data.products}
                     columns={columns}
