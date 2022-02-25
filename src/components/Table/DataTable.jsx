@@ -83,7 +83,7 @@ const columns = [
                 return (
                     <div style={{display:"flex"}}>
                         <div style={{margin:"auto"}}>
-                            <a href={value}>Product Link</a>
+                            <a href={value} target="_blank" rel="noreferrer">Product Link</a>
                         </div>
                     </div>
                 );
