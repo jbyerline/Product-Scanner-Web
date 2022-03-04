@@ -224,7 +224,7 @@ const columns = [
         label: "Is Active?",
         options: {
             filter: false,
-            sort: false,
+            sort: true,
             customBodyRender: (value, tableMeta) => {
                 if( value === true) {
                     return (
@@ -256,8 +256,8 @@ const columns = [
                     )
                 }
             },
-            customHeadRender: (columnMeta) => (
-                <th key={8} style={{borderBottom: "1px"}}>
+            customHeadRender: (columnMeta, updateDirection) => (
+                <th key={8} onClick={() => updateDirection(8)} style={{cursor: 'pointer'}}>
                     {columnMeta.label}
                 </th>
             )
@@ -321,14 +321,16 @@ const useStyles = makeStyles({
 export default function DataTable() {
     const classes = useStyles();
     const [data, setData] = React.useState(null);
+    const [sortedProducts, setSortedProducts] = React.useState(null);
 
     React.useEffect(() => {
         axios.get(baseURL + "/data").then((response) => {
             setData(response.data);
+            setSortedProducts(response.data.products.sort((a, b) => b.isEnabled - a.isEnabled));
         });
     }, []);
 
-    if (!data) return null;
+    if (!data || !sortedProducts) return null;
 
     const options = {
         selectableRows: 'none',
@@ -354,7 +356,7 @@ export default function DataTable() {
                 <MUIDataTable
                     className={classes.table}
                     title={"Product Scanner List"}
-                    data={data.products}
+                    data={sortedProducts}
                     columns={columns}
                     options={options}
                 />
