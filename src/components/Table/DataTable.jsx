@@ -75,8 +75,8 @@ const columns = [
         }
     },
     {
-        name: "URL",
-        label: "URL",
+        name: "productURL",
+        label: "Product URL",
         options: {
             sort: false,
             customBodyRender: (value) => {
@@ -84,6 +84,28 @@ const columns = [
                     <div style={{display:"flex"}}>
                         <div style={{margin:"auto"}}>
                             <a href={value} target="_blank" rel="noreferrer">Product Link</a>
+                        </div>
+                    </div>
+                );
+            },
+            customHeadRender: (columnMeta) => (
+                <th key={3} >
+                    {columnMeta.label}
+                </th>
+            )
+        }
+    },
+    {
+        name: "scanURL",
+        label: "Scanner URL",
+        options: {
+            sort: false,
+            display: false,
+            customBodyRender: (value) => {
+                return (
+                    <div style={{display:"flex"}}>
+                        <div style={{margin:"auto"}}>
+                            <a href={value} target="_blank" rel="noreferrer">Scan Link</a>
                         </div>
                     </div>
                 );
@@ -241,7 +263,45 @@ const columns = [
             )
         }
     },
+    {
+        name: "contactNumbers",
+        label: "Contact Numbers",
+        options: {
+            filter: false,
+            display: false,
+            customBodyRender: (value) => {
+                let numbers = [];
+                value.forEach((number) => {
+                    if(number){
+                        const newNum = formatPhoneNumber(number)
+                        numbers.push(newNum)
+                    }
+                })
+                return (
+                    <div style={{display:"flex"}}>
+                        <div style={{margin:"auto"}}>
+                            {numbers.map((item,i) => <li key={i} style={{listStyleType: "none"}}>{item}</li>)}
+                        </div>
+                    </div>
+                )
+            },
+            customHeadRender: (columnMeta, updateDirection) => (
+                <th key={9} onClick={() => updateDirection(9)} style={{cursor: 'pointer'}}>
+                    {columnMeta.label}
+                </th>
+            )
+        }
+    },
 ];
+
+const formatPhoneNumber = (phoneNumberString) => {
+    const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+        return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+    }
+    return null;
+}
 
 const handleUpdateSearch = (e, tableMeta) => {
     const productID = tableMeta.rowData[0];
