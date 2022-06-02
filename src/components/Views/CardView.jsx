@@ -188,7 +188,7 @@ const columns = [
                 return (
                     <div style={{display:"flex"}}>
                         <div style={{margin:"auto"}}>
-                            {value}
+                            {value.replaceAll("-", "/").slice(0, -1)}
                         </div>
                     </div>
                 )
@@ -270,7 +270,7 @@ const columns = [
         label: "Contact Numbers",
         options: {
             filter: false,
-            display: false,
+            display: true,
             customBodyRender: (value) => {
                 let numbers = [];
                 value.forEach((number) => {
@@ -337,6 +337,12 @@ const useStyles = makeStyles({
         flexWrap: "wrap",
         margin: "10px",
     },
+    buttons: {
+        display: "flex",
+    },
+    scanButton: {
+        paddingRight: 16
+    }
 });
 
 export default function CardView() {
@@ -354,13 +360,18 @@ export default function CardView() {
     if (!data || !sortedProducts) return null;
 
    const handleScan = () => {
-        axios.get(baseURL + "/scan").then((response) => {setData(response.data)});
+        axios.get(baseURL + "/scan").then((response) => {
+            setData(response.data);
+            setSortedProducts(response.data.products.sort((a, b) => b.isEnabled - a.isEnabled))});
+    };
+
+    const handleText = () => {
+        axios.get("https://text.byerline.me/send/6193419322/This%20message%20was%20sent%20to%20you%20from%20your%20Product%20Scanner.%20Did%20you%20get%20this%3F");
     };
 
    if (!data){
        return (<p> no data</p>);
    } else {
-       console.log(data)
        return (
            <div>
                <div style={{padding: "15px"}}>
@@ -368,12 +379,19 @@ export default function CardView() {
                    <Typography variant={"h6"}> <strong>Scanner Last Ran:</strong> {data.lastUpdated}</Typography>
                    <Typography variant={"h6"}> <strong>Successfully Found Products:</strong> {data.numberFound}
                    </Typography>
-                   <Button variant={"outlined"} onClick={handleScan}>Scan Now</Button>
+                   <div className={classes.buttons}>
+                       <div className={classes.scanButton}>
+                           <Button  variant={"outlined"} onClick={handleScan}>Scan Now</Button>
+                       </div>
+                       <div>
+                           <Button variant={"outlined"} onClick={handleText}>Test iMessage</Button>
+                       </div>
+                   </div>
                </div>
                <div className={classes.cards}>
                    {data ? (
                        data.products.map((item) => (
-                           <Card sx={{ width: 400 }}>
+                           <Card key={item.id} sx={{ width: 400 }}>
                                {/*<CardHeader title={item.name} />*/}
                                <CardContent>
                                    <MUIDataTable
