@@ -363,12 +363,10 @@ const handleUpdateSearch = (e, tableMeta) => {
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 368,
     "& .MuiTableHead-root": {
       border: "1px solid rgba(224, 224, 224, 1)",
       height: "75px",
     },
-    width: 368,
   },
   cards: {
     display: "flex",
