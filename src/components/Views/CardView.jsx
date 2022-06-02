@@ -5,12 +5,14 @@ import CircleX from "../Icons/CircleX";
 import CircleCheck from "../Icons/CircleCheck";
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import {Button, Stack, Typography, Card} from "@mui/material";
+import {Button, Stack, Typography, Card, CardHeader, CardContent} from "@mui/material";
 import {makeStyles} from "@mui/styles"
 import AntSwitch from "../Switch/AntSwitch";
+import BasicTable from "../Table/BasicTable";
 
 
 const baseURL = "https://scannerapi.byerline.me";
+
 
 const columns = [
     {
@@ -159,14 +161,14 @@ const columns = [
                 } else {
                     return (
                         <div style={{display:"flex"}}>
-                             <div style={{height:'40px',width: '40px', margin:"auto"}}>
-                                 <Tooltip title={"Has Not Yet Been Found"}>
-                                     <IconButton>
+                            <div style={{height:'40px',width: '40px', margin:"auto"}}>
+                                <Tooltip title={"Has Not Yet Been Found"}>
+                                    <IconButton>
                                         <CircleX sx={{ color: "#fc3838" }} viewBox={"0 0 512 512"}/>
-                                     </IconButton>
-                                 </Tooltip>
-                             </div>
-                         </div>
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                        </div>
                     )
                 }
             },
@@ -232,9 +234,9 @@ const columns = [
                             <div style={{margin:"auto"}}>
                                 <Stack direction="row" spacing={1} alignItems="center">
                                     <Typography>Off</Typography>
-                                        <AntSwitch defaultChecked onChange={(e)=> {
-                                            handleUpdateSearch(e, tableMeta)
-                                        }}/>
+                                    <AntSwitch defaultChecked onChange={(e)=> {
+                                        handleUpdateSearch(e, tableMeta)
+                                    }}/>
                                     <Typography>On</Typography>
                                 </Stack>
                             </div>
@@ -245,11 +247,11 @@ const columns = [
                         <div style={{display:"flex"}}>
                             <div style={{margin:"auto"}}>
                                 <Stack direction="row" spacing={1} alignItems="center">
-                                <Typography>Off</Typography>
+                                    <Typography>Off</Typography>
                                     <AntSwitch onChange={(e)=> {
                                         handleUpdateSearch(e, tableMeta)
                                     }}/>
-                                <Typography>On</Typography>
+                                    <Typography>On</Typography>
                                 </Stack>
                             </div>
                         </div>
@@ -294,6 +296,18 @@ const columns = [
     },
 ];
 
+const options = {
+    download: false,
+    filter: false,
+    search: false,
+    print: false,
+    selectableRows: "none",
+    customFooter: (()=>{
+        return null
+    }),
+    responsive: "verticalAlways"
+};
+
 const formatPhoneNumber = (phoneNumberString) => {
     const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
@@ -310,15 +324,22 @@ const handleUpdateSearch = (e, tableMeta) => {
 
 const useStyles = makeStyles({
     table: {
-        minWidth: 650,
+        minWidth: 368,
         "& .MuiTableHead-root": {
             border: "1px solid rgba(224, 224, 224, 1)",
             height: "75px"
         },
-    }
+        width: 368,
+    },
+    cards: {
+        display: "flex",
+        gap: "10px",
+        flexWrap: "wrap",
+        margin: "10px",
+    },
 });
 
-export default function DataTable() {
+export default function CardView() {
     const classes = useStyles();
     const [data, setData] = React.useState(null);
     const [sortedProducts, setSortedProducts] = React.useState(null);
@@ -332,35 +353,44 @@ export default function DataTable() {
 
     if (!data || !sortedProducts) return null;
 
-    const options = {
-        selectableRows: 'none',
-        print: false,
-        filter: false,
-        download: false,
-        pagination: false,
-    };
-
-    const handleScan = () => {
+   const handleScan = () => {
         axios.get(baseURL + "/scan").then((response) => {setData(response.data)});
     };
 
-    return (
-        <div>
-            <div style={{padding:"15px"}}>
-                <Typography variant={"h5"}> <strong>Details:</strong></Typography>
-                <Typography variant={"h6"}> <strong>Scanner Last Ran:</strong> {data.lastUpdated}</Typography>
-                <Typography variant={"h6"}> <strong>Successfully Found Products:</strong> {data.numberFound}</Typography>
-                <Button variant={"outlined"} onClick={handleScan}>Scan Now</Button>
-            </div>
-            <div style={{padding:"15px"}}>
-                <MUIDataTable
-                    className={classes.table}
-                    title={"Product Scanner List"}
-                    data={sortedProducts}
-                    columns={columns}
-                    options={options}
-                />
-            </div>
-        </div>
-    );
+   if (!data){
+       return (<p> no data</p>);
+   } else {
+       console.log(data)
+       return (
+           <div>
+               <div style={{padding: "15px"}}>
+                   <Typography variant={"h5"}> <strong>Details:</strong></Typography>
+                   <Typography variant={"h6"}> <strong>Scanner Last Ran:</strong> {data.lastUpdated}</Typography>
+                   <Typography variant={"h6"}> <strong>Successfully Found Products:</strong> {data.numberFound}
+                   </Typography>
+                   <Button variant={"outlined"} onClick={handleScan}>Scan Now</Button>
+               </div>
+               <div className={classes.cards}>
+                   {data ? (
+                       data.products.map((item) => (
+                           <Card sx={{ width: 400 }}>
+                               {/*<CardHeader title={item.name} />*/}
+                               <CardContent>
+                                   <MUIDataTable
+                                       className={classes.table}
+                                       title={item.name}
+                                       data={[item]}
+                                       columns={columns}
+                                       options={options}
+                                   />
+                               </CardContent>
+                           </Card>
+                       ))
+                   ) : (
+                       <p>N/A</p>
+                   )}
+               </div>
+           </div>
+       );
+   }
 }
