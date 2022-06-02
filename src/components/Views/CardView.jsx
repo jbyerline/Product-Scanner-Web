@@ -196,7 +196,7 @@ const columns = [
         return (
           <div style={{ display: "flex" }}>
             <div style={{ margin: "auto" }}>
-              {value.replaceAll("-", "/").slice(0, -1)}
+              {remove_character(value.replaceAll("-", "/"), 7, 9)}
             </div>
           </div>
         );
@@ -338,6 +338,12 @@ const options = {
   },
   responsive: "verticalAlways",
 };
+
+function remove_character(str, first_char_pos, second_char_pos) {
+  const part1 = str.substring(0, first_char_pos);
+  const part2 = str.substring(second_char_pos, str.length);
+  return part1 + part2;
+}
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
