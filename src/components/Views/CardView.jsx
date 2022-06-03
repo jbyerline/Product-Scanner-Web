@@ -14,7 +14,7 @@ const baseURL = "https://scannerapi.byerline.me";
 const columns = [
   {
     name: "id",
-    label: "Product ID",
+    label: "Product ID:",
     options: {
       filter: false,
       customBodyRender: (value) => {
@@ -37,7 +37,7 @@ const columns = [
   },
   {
     name: "brand",
-    label: "Brand",
+    label: "Brand:",
     options: {
       customBodyRender: (value) => {
         return (
@@ -59,7 +59,7 @@ const columns = [
   },
   {
     name: "name",
-    label: "Product Name",
+    label: "Product Name:",
     options: {
       customBodyRender: (value) => {
         return (
@@ -81,7 +81,7 @@ const columns = [
   },
   {
     name: "image",
-    label: "Image",
+    label: "Image:",
     options: {
       customBodyRender: (value) => {
         return (
@@ -105,7 +105,7 @@ const columns = [
   },
   {
     name: "productURL",
-    label: "Product URL",
+    label: "Product Link:",
     options: {
       sort: false,
       customBodyRender: (value) => {
@@ -124,7 +124,7 @@ const columns = [
   },
   {
     name: "scanURL",
-    label: "Scanner URL",
+    label: "Scanner Link:",
     options: {
       sort: false,
       display: false,
@@ -144,7 +144,7 @@ const columns = [
   },
   {
     name: "regex",
-    label: "Regex",
+    label: "Regex:",
     options: {
       display: false,
       customBodyRender: (value) => {
@@ -167,7 +167,7 @@ const columns = [
   },
   {
     name: "isFound",
-    label: "Previously Found",
+    label: "Previously Found?",
     options: {
       filter: false,
       customBodyRender: (value) => {
@@ -213,14 +213,20 @@ const columns = [
   },
   {
     name: "lastFound",
-    label: "Date Last Found",
+    label: "Date Last Found:",
     options: {
       filter: false,
       customBodyRender: (value) => {
         return (
           <div style={{ display: "flex" }}>
             <div style={{ margin: "auto" }}>
-              {remove_character(value.replaceAll("-", "/"), 7, 9)}
+              {value !== "N/A"
+                ? remove_character(
+                    remove_character(value.replaceAll("-", "/"), 7, 9),
+                    12,
+                    15
+                  )
+                : value}
             </div>
           </div>
         );
@@ -238,7 +244,7 @@ const columns = [
   },
   {
     name: "numberOfTrials",
-    label: "# of Attempts",
+    label: "Attempts:",
     options: {
       filter: false,
       customBodyRender: (value) => {
@@ -314,7 +320,7 @@ const columns = [
   },
   {
     name: "contactNumbers",
-    label: "Contact Numbers",
+    label: "Contact Numbers:",
     options: {
       filter: false,
       display: true,
@@ -396,6 +402,9 @@ const useStyles = makeStyles({
     "& .MuiTableHead-root": {
       border: "1px solid rgba(224, 224, 224, 1)",
       height: "75px",
+    },
+    "& .MuiTypography-root": {
+      fontWeight: "bolder",
     },
   },
   cards: {
