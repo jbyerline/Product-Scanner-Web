@@ -80,6 +80,30 @@ const columns = [
     },
   },
   {
+    name: "image",
+    label: "Image",
+    options: {
+      customBodyRender: (value) => {
+        return (
+          <div style={{ display: "flex" }}>
+            <div style={{ margin: "auto" }}>
+              <img height={75} width={75} src={value} />
+            </div>
+          </div>
+        );
+      },
+      customHeadRender: (columnMeta, updateDirection) => (
+        <th
+          key={3}
+          onClick={() => updateDirection(3)}
+          style={{ cursor: "pointer" }}
+        >
+          {columnMeta.label}
+        </th>
+      ),
+    },
+  },
+  {
     name: "productURL",
     label: "Product URL",
     options: {
@@ -95,7 +119,7 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta) => <th key={3}>{columnMeta.label}</th>,
+      customHeadRender: (columnMeta) => <th key={4}>{columnMeta.label}</th>,
     },
   },
   {
@@ -115,7 +139,7 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta) => <th key={3}>{columnMeta.label}</th>,
+      customHeadRender: (columnMeta) => <th key={5}>{columnMeta.label}</th>,
     },
   },
   {
@@ -133,7 +157,7 @@ const columns = [
       customHeadRender: (columnMeta, updateDirection) => (
         <th
           key={4}
-          onClick={() => updateDirection(4)}
+          onClick={() => updateDirection(6)}
           style={{ cursor: "pointer" }}
         >
           {columnMeta.label}
@@ -178,8 +202,8 @@ const columns = [
       },
       customHeadRender: (columnMeta, updateDirection) => (
         <th
-          key={5}
-          onClick={() => updateDirection(5)}
+          key={7}
+          onClick={() => updateDirection(7)}
           style={{ cursor: "pointer" }}
         >
           {columnMeta.label}
@@ -203,8 +227,8 @@ const columns = [
       },
       customHeadRender: (columnMeta, updateDirection) => (
         <th
-          key={6}
-          onClick={() => updateDirection(6)}
+          key={8}
+          onClick={() => updateDirection(8)}
           style={{ cursor: "pointer" }}
         >
           {columnMeta.label}
@@ -226,8 +250,8 @@ const columns = [
       },
       customHeadRender: (columnMeta, updateDirection) => (
         <th
-          key={7}
-          onClick={() => updateDirection(7)}
+          key={9}
+          onClick={() => updateDirection(9)}
           style={{ cursor: "pointer" }}
         >
           {columnMeta.label}
@@ -279,8 +303,8 @@ const columns = [
       },
       customHeadRender: (columnMeta, updateDirection) => (
         <th
-          key={8}
-          onClick={() => updateDirection(8)}
+          key={10}
+          onClick={() => updateDirection(10)}
           style={{ cursor: "pointer" }}
         >
           {columnMeta.label}
@@ -316,8 +340,8 @@ const columns = [
       },
       customHeadRender: (columnMeta, updateDirection) => (
         <th
-          key={9}
-          onClick={() => updateDirection(9)}
+          key={11}
+          onClick={() => updateDirection(11)}
           style={{ cursor: "pointer" }}
         >
           {columnMeta.label}
