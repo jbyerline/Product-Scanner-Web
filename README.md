@@ -48,4 +48,4 @@ Then edit the `products.json` file to add products to scan for.
     ]
 }
 ```
-![Scanner UI](https://user-images.githubusercontent.com/47374239/160188515-585f8371-762f-4592-954f-55a38407dc68.png)
+![Screen Shot 2022-06-04 at 11 39 04 PM](https://user-images.githubusercontent.com/47374239/172038727-93c520fd-fcae-4419-bd60-8822038a8e8f.png)
