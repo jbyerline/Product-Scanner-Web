@@ -223,8 +223,8 @@ const columns = [
               {value !== "N/A"
                 ? remove_character(
                     remove_character(value.replaceAll("-", "/"), 7, 9),
-                    12,
-                    15
+                    14,
+                    17
                   )
                 : value}
             </div>
@@ -405,6 +405,9 @@ const useStyles = makeStyles({
     },
     "& .MuiTypography-root": {
       fontWeight: "bolder",
+    },
+    "& .MuiTypography-body1": {
+      fontWeight: "normal !important",
     },
   },
   cards: {
