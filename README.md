@@ -1,5 +1,4 @@
 ### To install required packages use: `npm install`
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ### To run this project use: `npm start`
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
