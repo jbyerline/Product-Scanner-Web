@@ -4,6 +4,7 @@ import { Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import ProductCard from "../Cards/ProductCard";
+import Header from "../Header/Header";
 
 const baseURL = "https://scannerapi.byerline.me";
 
@@ -58,6 +59,7 @@ export default function CardView() {
   } else {
     return (
       <div>
+        <Header headerIcon="card" />
         <div style={{ padding: "15px" }}>
           <Typography variant="h5">
             {" "}

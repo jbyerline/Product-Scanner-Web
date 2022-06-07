@@ -1,15 +1,17 @@
 import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Header from "./components/Header/Header";
 import CardView from "./components/Views/CardView";
 import TableView from "./components/Views/TableView";
 
 export default function App() {
   return (
-    <div>
-      <Header />
-      {/*<TableView />*/}
-      <CardView />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/card" />} />
+        <Route path="table" element={<TableView />} />
+        <Route path="card" element={<CardView />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
