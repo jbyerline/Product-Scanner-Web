@@ -1,15 +1,15 @@
 import React from "react";
 
-import DataTable from "./components/Table/DataTable";
 import Header from "./components/Header/Header";
 import CardView from "./components/Views/CardView";
+import TableView from "./components/Views/TableView";
 
 export default function App() {
   return (
     <div>
       <Header />
-      {/*<DataTable/>*/}
-      <CardView />
+      <TableView />
+      {/*<CardView />*/}
     </div>
   );
 }

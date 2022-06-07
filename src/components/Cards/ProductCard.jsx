@@ -3,7 +3,7 @@ import React from "react";
 import MUIDataTable from "mui-datatables";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, Card, CardContent } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import CircleCheck from "../Icons/CircleCheck";
@@ -11,11 +11,10 @@ import CircleX from "../Icons/CircleX";
 import AntSwitch from "../Switch/AntSwitch";
 
 const baseURL = "https://scannerapi.byerline.me";
-
 const columns = [
   {
     name: "id",
-    label: "Product ID",
+    label: "Product ID:",
     options: {
       customBodyRender: (value) => {
         return (
@@ -24,20 +23,11 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta, updateDirection) => (
-        <th
-          key={0}
-          onClick={() => updateDirection(0)}
-          style={{ cursor: "pointer" }}
-        >
-          {columnMeta.label}
-        </th>
-      ),
     },
   },
   {
     name: "brand",
-    label: "Brand",
+    label: "Brand:",
     options: {
       customBodyRender: (value) => {
         return (
@@ -46,20 +36,11 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta, updateDirection) => (
-        <th
-          key={1}
-          onClick={() => updateDirection(1)}
-          style={{ cursor: "pointer" }}
-        >
-          {columnMeta.label}
-        </th>
-      ),
     },
   },
   {
     name: "name",
-    label: "Product Name",
+    label: "Product Name:",
     options: {
       customBodyRender: (value) => {
         return (
@@ -68,22 +49,12 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta, updateDirection) => (
-        <th
-          key={2}
-          onClick={() => updateDirection(2)}
-          style={{ cursor: "pointer" }}
-        >
-          {columnMeta.label}
-        </th>
-      ),
     },
   },
   {
     name: "image",
     label: "Image:",
     options: {
-      sort: false,
       customBodyRender: (value) => {
         return (
           <div style={{ display: "flex" }}>
@@ -93,14 +64,12 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta) => <th key={3}>{columnMeta.label}</th>,
     },
   },
   {
     name: "productURL",
-    label: "Product URL",
+    label: "Product Link:",
     options: {
-      sort: false,
       customBodyRender: (value) => {
         return (
           <div style={{ display: "flex" }}>
@@ -112,14 +81,12 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta) => <th key={4}>{columnMeta.label}</th>,
     },
   },
   {
     name: "scanURL",
-    label: "Scanner URL",
+    label: "Scanner Link:",
     options: {
-      sort: false,
       display: false,
       customBodyRender: (value) => {
         return (
@@ -132,12 +99,11 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta) => <th key={5}>{columnMeta.label}</th>,
     },
   },
   {
     name: "regex",
-    label: "Regex",
+    label: "Regex:",
     options: {
       display: false,
       customBodyRender: (value) => {
@@ -147,7 +113,6 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta) => <th key={6}>{columnMeta.label}</th>,
     },
   },
   {
@@ -170,20 +135,11 @@ const columns = [
           );
         }
       },
-      customHeadRender: (columnMeta, updateDirection) => (
-        <th
-          key={7}
-          onClick={() => updateDirection(7)}
-          style={{ cursor: "pointer" }}
-        >
-          {columnMeta.label}
-        </th>
-      ),
     },
   },
   {
     name: "isFound",
-    label: "Previously Found",
+    label: "Previously Found?",
     options: {
       customBodyRender: (value) => {
         if (value === true) {
@@ -215,42 +171,32 @@ const columns = [
           );
         }
       },
-      customHeadRender: (columnMeta, updateDirection) => (
-        <th
-          key={8}
-          onClick={() => updateDirection(8)}
-          style={{ cursor: "pointer" }}
-        >
-          {columnMeta.label}
-        </th>
-      ),
     },
   },
   {
     name: "lastFound",
-    label: "Date Last Found",
+    label: "Date Last Found:",
     options: {
       customBodyRender: (value) => {
         return (
           <div style={{ display: "flex" }}>
-            <div style={{ margin: "auto" }}>{value}</div>
+            <div style={{ margin: "auto" }}>
+              {value !== "N/A"
+                ? remove_character(
+                    remove_character(value.replaceAll("-", "/"), 7, 9),
+                    14,
+                    17
+                  )
+                : value}
+            </div>
           </div>
         );
       },
-      customHeadRender: (columnMeta, updateDirection) => (
-        <th
-          key={9}
-          onClick={() => updateDirection(9)}
-          style={{ cursor: "pointer" }}
-        >
-          {columnMeta.label}
-        </th>
-      ),
     },
   },
   {
     name: "numberOfTrials",
-    label: "# of Attempts",
+    label: "Attempts:",
     options: {
       customBodyRender: (value) => {
         return (
@@ -259,22 +205,12 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta, updateDirection) => (
-        <th
-          key={10}
-          onClick={() => updateDirection(10)}
-          style={{ cursor: "pointer" }}
-        >
-          {columnMeta.label}
-        </th>
-      ),
     },
   },
   {
     name: "isEnabled",
     label: "Is Active?",
     options: {
-      sort: false,
       customBodyRender: (value, tableMeta) => {
         if (value === true) {
           return (
@@ -311,15 +247,12 @@ const columns = [
           );
         }
       },
-      customHeadRender: (columnMeta) => <th key={11}>{columnMeta.label}</th>,
     },
   },
   {
     name: "contactNumbers",
-    label: "Contact Numbers",
+    label: "Contact Numbers:",
     options: {
-      sort: false,
-      display: false,
       customBodyRender: (value) => {
         let numbers = [];
         value.forEach((number) => {
@@ -340,10 +273,27 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta) => <th key={12}>{columnMeta.label}</th>,
     },
   },
 ];
+
+const options = {
+  download: false,
+  filter: false,
+  search: false,
+  print: false,
+  selectableRows: "none",
+  customFooter: () => {
+    return null;
+  },
+  responsive: "verticalAlways",
+};
+
+function remove_character(str, first_char_pos, second_char_pos) {
+  const part1 = str.substring(0, first_char_pos);
+  const part2 = str.substring(second_char_pos, str.length);
+  return part1 + part2;
+}
 
 const formatPhoneNumber = (phoneNumberString) => {
   const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
@@ -369,33 +319,33 @@ const handleUpdateSearch = (e, tableMeta) => {
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
     "& .MuiTableHead-root": {
       border: "1px solid rgba(224, 224, 224, 1)",
       height: "75px",
     },
+    "& .MuiTypography-root": {
+      fontWeight: "bolder",
+    },
+    "& .MuiTypography-body1": {
+      fontWeight: "normal !important",
+    },
   },
 });
 
-export default function DataTable(props) {
+export default function ProductCard(props) {
   const classes = useStyles();
 
-  const options = {
-    selectableRows: "none",
-    print: false,
-    filter: false,
-    download: false,
-    pagination: false,
-    rowHover: false,
-  };
-
   return (
-    <MUIDataTable
-      className={classes.table}
-      title="Product Scanner List"
-      data={props.sortedProducts}
-      columns={columns}
-      options={options}
-    />
+    <Card sx={{ width: 400 }}>
+      <CardContent>
+        <MUIDataTable
+          className={classes.table}
+          title={props.title}
+          data={props.data}
+          columns={columns}
+          options={options}
+        />
+      </CardContent>
+    </Card>
   );
 }

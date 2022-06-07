@@ -3,16 +3,13 @@ import React from "react";
 import { Button, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import ProductCard from "../Cards/ProductCard";
+import DataTable from "../Table/DataTable";
 
 const baseURL = "https://scannerapi.byerline.me";
 
 const useStyles = makeStyles({
-  cards: {
-    display: "flex",
-    gap: "10px",
-    flexWrap: "wrap",
-    margin: "10px",
+  table: {
+    padding: "10px",
   },
   buttons: {
     display: "flex",
@@ -84,14 +81,8 @@ export default function CardView() {
             </div>
           </div>
         </div>
-        <div className={classes.cards}>
-          {data ? (
-            data.products.map((item) => (
-              <ProductCard key={item.id} title={item.name} data={[item]} />
-            ))
-          ) : (
-            <p>N/A</p>
-          )}
+        <div className={classes.table}>
+          <DataTable sortedProducts={sortedProducts} />
         </div>
       </div>
     );
