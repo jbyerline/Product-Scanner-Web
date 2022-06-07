@@ -8,8 +8,8 @@ export default function App() {
   return (
     <div>
       <Header />
-      <TableView />
-      {/*<CardView />*/}
+      {/*<TableView />*/}
+      <CardView />
     </div>
   );
 }
