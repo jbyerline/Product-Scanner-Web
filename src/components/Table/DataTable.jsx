@@ -230,6 +230,7 @@ const columns = [
     name: "lastFound",
     label: "Date Last Found",
     options: {
+      display: false,
       customBodyRender: (value) => {
         return (
           <div style={{ display: "flex" }}>
@@ -387,6 +388,7 @@ export default function DataTable(props) {
     download: false,
     pagination: false,
     rowHover: false,
+    responsive: "standard",
   };
 
   return (

@@ -55,7 +55,7 @@ export default function CardView() {
     return <p> no data</p>;
   } else {
     return (
-      <div>
+      <div style={{ minWidth: "800px" }}>
         <Header headerIcon="table" />
         <div style={{ padding: "15px" }}>
           <Typography variant="h5">
