@@ -2,24 +2,24 @@ import { AppBar, Button, Toolbar, Tooltip } from "@mui/material";
 import React from "react";
 import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
-// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import TableIcon from "../Icons/TableIcon";
 import CardsBlankIcon from "../Icons/CardsBlank";
 
 export default function Header(props) {
-  // const history = useHistory();
+  let navigate = useNavigate();
 
   function refreshPage() {
     window.location.reload(false);
   }
 
   function redirectCard() {
-    // history.push(`/card`);
+    navigate("/card");
   }
 
   function redirectTable() {
-    // history.push(`/table`);
+    navigate("/table");
   }
 
   return (
@@ -38,8 +38,8 @@ export default function Header(props) {
                 <IconButton onClick={redirectCard}>
                   <CardsBlankIcon
                     aria-label="card view"
-                    height={20}
-                    width={20}
+                    height={22}
+                    width={22}
                     fill="white"
                   />
                 </IconButton>
