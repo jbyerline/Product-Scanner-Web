@@ -16,6 +16,7 @@
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.1.4",
     "libphonenumber-js": "^1.9.49",
+    "material-ui-phone-number": "^3.0.0",
     "mui-datatables": "^4.1.2",
     "prettier": "^2.6.2",
     "react": "^17.0.2",

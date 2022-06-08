@@ -2,12 +2,17 @@ import { AppBar, Toolbar, Tooltip } from "@mui/material";
 import React from "react";
 import IconButton from "@mui/material/IconButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 
 import TableIcon from "../Icons/TableIcon";
 import CardsBlankIcon from "../Icons/CardsBlank";
+import AddProductDialog from "../Dialogs/AddProductDialog";
 
 export default function Header(props) {
+  const [addProductDialogState, setAddProductDialogState] =
+    React.useState(false);
+
   let navigate = useNavigate();
 
   function refreshPage() {
@@ -22,6 +27,10 @@ export default function Header(props) {
     navigate("/table");
   }
 
+  function handleSetDialog(state) {
+    setAddProductDialogState(state);
+  }
+
   return (
     <header>
       <AppBar position="sticky">
@@ -30,6 +39,18 @@ export default function Header(props) {
             <p>Product Scanner Control Center</p>
           </div>
           <div>
+            <Tooltip
+              title="Add Product"
+              style={{ marginRight: "10px", marginBottom: "5px" }}
+            >
+              <IconButton
+                onClick={() => {
+                  handleSetDialog(true);
+                }}
+              >
+                <AddIcon aria-label="refresh" style={{ fill: "white" }} />
+              </IconButton>
+            </Tooltip>
             {props.headerIcon === "table" ? (
               <Tooltip
                 title="Card View"
@@ -59,7 +80,6 @@ export default function Header(props) {
                 </IconButton>
               </Tooltip>
             )}
-
             <Tooltip
               title="Refresh"
               style={{ marginRight: "10px", marginBottom: "5px" }}
@@ -71,6 +91,10 @@ export default function Header(props) {
           </div>
         </Toolbar>
       </AppBar>
+      <AddProductDialog
+        open={addProductDialogState}
+        setOpen={setAddProductDialogState}
+      />
     </header>
   );
 }
