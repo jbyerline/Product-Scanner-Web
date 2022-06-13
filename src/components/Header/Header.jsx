@@ -8,10 +8,13 @@ import { useNavigate } from "react-router-dom";
 import TableIcon from "../Icons/TableIcon";
 import CardsBlankIcon from "../Icons/CardsBlank";
 import AddProductDialog from "../Dialogs/AddProductDialog";
+import RegexIcon from "../Icons/RegexIcon";
+import RegexDialog from "../Dialogs/RegexDialog";
 
 export default function Header(props) {
   const [addProductDialogState, setAddProductDialogState] =
     React.useState(false);
+  const [regexDialogState, setRegexDialogState] = React.useState(false);
 
   let navigate = useNavigate();
 
@@ -27,8 +30,12 @@ export default function Header(props) {
     navigate("/table");
   }
 
-  function handleSetDialog(state) {
+  function handleSetAddProductDialog(state) {
     setAddProductDialogState(state);
+  }
+
+  function handleSetRegexDialog(state) {
+    setRegexDialogState(state);
   }
 
   return (
@@ -36,16 +43,33 @@ export default function Header(props) {
       <AppBar position="sticky">
         <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
           <div>
-            <p>Product Scanner Control Center</p>
+            <p>Product Scanner</p>
           </div>
           <div>
+            <Tooltip
+              title="Find Regex"
+              style={{ marginRight: "10px", marginBottom: "5px" }}
+            >
+              <IconButton
+                onClick={() => {
+                  handleSetRegexDialog(true);
+                }}
+              >
+                <RegexIcon
+                  aria-label="find regex"
+                  height={22}
+                  width={22}
+                  fill="white"
+                />
+              </IconButton>
+            </Tooltip>
             <Tooltip
               title="Add Product"
               style={{ marginRight: "10px", marginBottom: "5px" }}
             >
               <IconButton
                 onClick={() => {
-                  handleSetDialog(true);
+                  handleSetAddProductDialog(true);
                 }}
               >
                 <AddIcon aria-label="refresh" style={{ fill: "white" }} />
@@ -95,6 +119,7 @@ export default function Header(props) {
         open={addProductDialogState}
         setOpen={setAddProductDialogState}
       />
+      <RegexDialog open={regexDialogState} setOpen={setRegexDialogState} />
     </header>
   );
 }
