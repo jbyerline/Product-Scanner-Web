@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CardView() {
+export default function TableView() {
   const classes = useStyles();
   const [data, setData] = React.useState(null);
   const [sortedProducts, setSortedProducts] = React.useState(null);

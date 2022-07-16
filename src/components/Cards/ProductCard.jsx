@@ -13,7 +13,7 @@ import AntSwitch from "../Switch/AntSwitch";
 const baseURL = "https://scannerapi.byerline.me";
 const columns = [
   {
-    name: "id",
+    name: "productId",
     label: "Product ID:",
     options: {
       customBodyRender: (value) => {
@@ -52,7 +52,7 @@ const columns = [
     },
   },
   {
-    name: "image",
+    name: "imageUrl",
     label: "Image:",
     options: {
       customBodyRender: (value) => {
@@ -67,7 +67,7 @@ const columns = [
     },
   },
   {
-    name: "productURL",
+    name: "productUrl",
     label: "Product Link:",
     options: {
       customBodyRender: (value) => {
@@ -84,7 +84,7 @@ const columns = [
     },
   },
   {
-    name: "scanURL",
+    name: "scanUrl",
     label: "Scanner Link:",
     options: {
       display: false,
@@ -255,7 +255,7 @@ const columns = [
     options: {
       customBodyRender: (value) => {
         let numbers = [];
-        value.forEach((number) => {
+        JSON.parse(value).forEach((number) => {
           if (number) {
             const newNum = formatPhoneNumber(number);
             numbers.push(newNum);
@@ -307,9 +307,9 @@ const formatPhoneNumber = (phoneNumberString) => {
 const handleUpdateSearch = (e, tableMeta) => {
   const productID = tableMeta.rowData[0];
   axios
-    .get(
+    .patch(
       baseURL +
-        "/update/" +
+        "/product/" +
         productID.toString() +
         "/" +
         e.target.checked.toString()

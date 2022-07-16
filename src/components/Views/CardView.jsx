@@ -89,7 +89,11 @@ export default function CardView() {
         <div className={classes.cards}>
           {data ? (
             data.products.map((item) => (
-              <ProductCard key={item.id} title={item.name} data={[item]} />
+              <ProductCard
+                key={item.productId}
+                title={item.name}
+                data={[item]}
+              />
             ))
           ) : (
             <p>N/A</p>
