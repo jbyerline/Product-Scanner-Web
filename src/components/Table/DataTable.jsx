@@ -272,6 +272,28 @@ const columns = [
     },
   },
   {
+    name: "inventoryQuantity",
+    label: "Inventory Quantity",
+    options: {
+      customBodyRender: (value) => {
+        return (
+          <div style={{ display: "flex" }}>
+            <div style={{ margin: "auto" }}>{value}</div>
+          </div>
+        );
+      },
+      customHeadRender: (columnMeta, updateDirection) => (
+        <th
+          key={11}
+          onClick={() => updateDirection(11)}
+          style={{ cursor: "pointer" }}
+        >
+          {columnMeta.label}
+        </th>
+      ),
+    },
+  },
+  {
     name: "isEnabled",
     label: "Is Active?",
     options: {
@@ -312,7 +334,7 @@ const columns = [
           );
         }
       },
-      customHeadRender: (columnMeta) => <th key={11}>{columnMeta.label}</th>,
+      customHeadRender: (columnMeta) => <th key={12}>{columnMeta.label}</th>,
     },
   },
   {
@@ -341,7 +363,7 @@ const columns = [
           </div>
         );
       },
-      customHeadRender: (columnMeta) => <th key={12}>{columnMeta.label}</th>,
+      customHeadRender: (columnMeta) => <th key={13}>{columnMeta.label}</th>,
     },
   },
 ];

@@ -208,6 +208,19 @@ const columns = [
     },
   },
   {
+    name: "inventoryQuantity",
+    label: "Inventory Quantity (:",
+    options: {
+      customBodyRender: (value) => {
+        return (
+          <div style={{ display: "flex" }}>
+            <div style={{ margin: "auto" }}>{value}</div>
+          </div>
+        );
+      },
+    },
+  },
+  {
     name: "isEnabled",
     label: "Is Active?",
     options: {
