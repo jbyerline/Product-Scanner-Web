@@ -11,6 +11,9 @@ import {
   Typography,
 } from "@mui/material";
 import MuiPhoneNumber from "material-ui-phone-number";
+import ky from "ky";
+
+const baseURL = "https://scannerapi.byerline.me";
 
 const AddProductDialog = (props) => {
   const { open, setOpen } = props;
@@ -23,8 +26,30 @@ const AddProductDialog = (props) => {
   const [regex, setRegex] = React.useState("");
   const [negateRegex, setNegateRegex] = React.useState(false);
   const [phoneNumber, setPhoneNumber] = React.useState("");
+  const [submitted, setSubmitted] = React.useState(false);
+  const isMounted = React.useRef(false);
 
-  const handleSubmit = () => {
+  React.useEffect(() => {
+    if (isMounted.current) {
+      if (submitted === true) {
+        callApi()
+          .then(() => {
+            setSubmitted(false);
+            setOpen(false);
+          })
+          .catch(() => {
+            setSubmitted(false);
+            alert("Could not add product");
+          });
+      }
+    } else {
+      isMounted.current = true;
+    }
+  }, [submitted]);
+
+  const callApi = async () => {
+    const num = stripPhoneNumber(phoneNumber);
+
     const product = {
       brand,
       name,
@@ -33,10 +58,26 @@ const AddProductDialog = (props) => {
       scanUrl,
       regex,
       negateRegex,
-      phoneNumber,
+      contactNumbers: num,
+      isEnabled: true,
     };
     alert("Product: " + JSON.stringify(product));
-    setOpen(false);
+    await ky.post(baseURL + "/product/add", { json: product });
+  };
+
+  const stripPhoneNumber = (number) => {
+    let num = number;
+    console.log(num);
+    num = num.replaceAll("+", "");
+    num = num.replaceAll("(", "");
+    num = num.replaceAll(")", "");
+    num = num.replaceAll("-", "");
+    num = num.replaceAll(" ", "");
+    num = num.substring(1);
+
+    console.log(num);
+
+    return JSON.stringify([num]);
   };
 
   return (
@@ -175,7 +216,9 @@ const AddProductDialog = (props) => {
               <Button
                 sx={{ width: 350 }}
                 variant="outlined"
-                onClick={handleSubmit}
+                onClick={() => {
+                  setSubmitted(true);
+                }}
               >
                 Submit
               </Button>
