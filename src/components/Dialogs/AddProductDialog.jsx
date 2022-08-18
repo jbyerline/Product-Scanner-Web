@@ -13,7 +13,8 @@ import {
 import MuiPhoneNumber from "material-ui-phone-number";
 import ky from "ky";
 
-const baseURL = "https://scannerapi.byerline.me";
+// const baseURL = "https://scannerapi.byerline.me";
+const baseURL = "http://10.0.0.21:8085";
 
 const AddProductDialog = (props) => {
   const { open, setOpen } = props;
